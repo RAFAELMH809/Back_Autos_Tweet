@@ -65,7 +65,11 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 @Bean
 public CorsFilter corsFilter() {
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(List.of("http://localhost:4200"));
+    config.setAllowedOrigins(List.of(
+    "http://localhost:4200",
+    "https://back-autos-tweet.onrender.com"
+));
+
     config.setAllowedHeaders(List.of(
         "Origin", "Content-Type", "Accept", "Authorization"
         //"Access-Control-Allow-Origin", "Access-Control-Allow-Headers"
