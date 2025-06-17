@@ -1,10 +1,10 @@
-FROM openjdk:17-jdk-alpine
-LABEL maintainer="zs23004693@estudiantes.uv.mx"
+FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
+FROM eclipse-temurin:17-jdk-alpine
 VOLUME /tmp
 EXPOSE 8080
-
-ARG JAR_FILE=target/SpringBootSecurityPostgresqlApplication-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} app.jar
-
+COPY --from=build /app/target/SpringBootSecurityPostgresqlApplication-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
