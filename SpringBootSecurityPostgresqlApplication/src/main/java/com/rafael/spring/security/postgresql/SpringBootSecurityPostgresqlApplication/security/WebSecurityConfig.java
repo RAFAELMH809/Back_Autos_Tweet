@@ -88,24 +88,17 @@ public CorsFilter corsFilter() {
  @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors(withDefaults())
-    //http.csrf(csrf -> csrf.disable())
         .csrf(csrf -> csrf.disable())
         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/api/test/**").permitAll()
-            .requestMatchers("/api/reactions/tweet/**").authenticated()
-            .requestMatchers("/api/reactions/create").authenticated()
             .requestMatchers("/api/comments/**").permitAll()
-
-          // .requestMatchers("/api/tweets/**").permitAll()
-          // .requestMatchers("/api/reactions/**").permitAll()
             .requestMatchers("/api/reactions/**").authenticated()
             .requestMatchers("/api/tweets/image-url").authenticated()
-
-
-            .anyRequest().authenticated());
+            .anyRequest().authenticated()
+        );
 
     http.authenticationProvider(authenticationProvider());
 
